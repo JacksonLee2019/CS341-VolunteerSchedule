@@ -1,5 +1,5 @@
 export class ServiceRequest {
-    name: String;
+    title: String;
     id: number;
     description: String;
     volunteersNeeded: number;

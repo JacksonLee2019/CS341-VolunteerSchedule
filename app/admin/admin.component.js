@@ -12,17 +12,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var index_1 = require("../_services/index");
 var AdminComponent = /** @class */ (function () {
-    function AdminComponent(userService) {
+    function AdminComponent(userService, serviceRequestService) {
         this.userService = userService;
+        this.serviceRequestService = serviceRequestService;
         this.users = [];
+        this.serviceRequests = [];
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     }
     AdminComponent.prototype.ngOnInit = function () {
         this.loadAllUsers();
+        this.loadAllServiceRequests();
     };
     AdminComponent.prototype.deleteUser = function (id) {
         var _this = this;
         this.userService.delete(id).subscribe(function () { _this.loadAllUsers(); });
+    };
+    AdminComponent.prototype.deleteServiceRequest = function (id) {
+        var _this = this;
+        this.serviceRequestService.delete(id).subscribe(function () { _this.loadAllServiceRequests(); });
+    };
+    AdminComponent.prototype.loadAllServiceRequests = function () {
+        var _this = this;
+        this.serviceRequestService.getAll().subscribe(function (serviceRequests) { _this.serviceRequests = serviceRequests; });
     };
     AdminComponent.prototype.loadAllUsers = function () {
         var _this = this;
@@ -33,7 +44,7 @@ var AdminComponent = /** @class */ (function () {
             moduleId: module.id,
             templateUrl: 'admin.component.html'
         }),
-        __metadata("design:paramtypes", [index_1.UserService])
+        __metadata("design:paramtypes", [index_1.UserService, index_1.ServiceRequestService])
     ], AdminComponent);
     return AdminComponent;
 }());

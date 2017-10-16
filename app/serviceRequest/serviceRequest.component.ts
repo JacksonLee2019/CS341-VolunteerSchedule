@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-    templateUrl: './serviceRequest.component.html'
-
+    moduleId: module.id,
+    templateUrl: 'serviceRequest.component.html'
 })
 
-export class ServiceRequestComponent {
-    
-}
+export class ServiceRequestComponent {}

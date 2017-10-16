@@ -12,28 +12,30 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var index_1 = require("../_services/index");
 var VolunteerComponent = /** @class */ (function () {
-    function VolunteerComponent(userService) {
+    function VolunteerComponent(userService, serviceRequestService) {
         this.userService = userService;
-        this.users = [];
+        this.serviceRequestService = serviceRequestService;
+        this.serviceRequests = [];
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        this.currentServiceRequest = JSON.parse(localStorage.getItem('currentServiceRequest'));
     }
     VolunteerComponent.prototype.ngOnInit = function () {
-        this.loadAllUsers();
+        this.loadAllServiceRequests();
     };
-    VolunteerComponent.prototype.deleteUser = function (id) {
+    VolunteerComponent.prototype.deleteServiceRequest = function (id) {
         var _this = this;
-        this.userService.delete(id).subscribe(function () { _this.loadAllUsers(); });
+        this.serviceRequestService.delete(id).subscribe(function () { _this.loadAllServiceRequests(); });
     };
-    VolunteerComponent.prototype.loadAllUsers = function () {
+    VolunteerComponent.prototype.loadAllServiceRequests = function () {
         var _this = this;
-        this.userService.getAll().subscribe(function (users) { _this.users = users; });
+        this.serviceRequestService.getAll().subscribe(function (serviceRequests) { _this.serviceRequests = serviceRequests; });
     };
     VolunteerComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
             templateUrl: 'volunteer.component.html'
         }),
-        __metadata("design:paramtypes", [index_1.UserService])
+        __metadata("design:paramtypes", [index_1.UserService, index_1.ServiceRequestService])
     ], VolunteerComponent);
     return VolunteerComponent;
 }());

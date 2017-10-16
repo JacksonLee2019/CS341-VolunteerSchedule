@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { User } from '../_models/index';
-import { UserService } from '../_services/index';
+import { User, ServiceRequest } from '../_models/index';
+import { UserService, ServiceRequestService } from '../_services/index';
 
 @Component({
     moduleId: module.id,
@@ -10,21 +10,23 @@ import { UserService } from '../_services/index';
 
 export class VolunteerComponent implements OnInit{
     currentUser: User;
-    users: User[] = [];
+    currentServiceRequest: ServiceRequest;
+    serviceRequests: ServiceRequest[] = [];
 
-    constructor(private userService: UserService) {
+    constructor(private userService: UserService, private serviceRequestService: ServiceRequestService) {
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        this.currentServiceRequest = JSON.parse(localStorage.getItem('currentServiceRequest'));
     }
 
     ngOnInit() {
-        this.loadAllUsers();
+        this.loadAllServiceRequests();
     }
 
-    deleteUser(id: number) {
-        this.userService.delete(id).subscribe(() => { this.loadAllUsers() });
+    deleteServiceRequest(id: number) {
+        this.serviceRequestService.delete(id).subscribe(() => { this.loadAllServiceRequests() });
     }
 
-    private loadAllUsers() {
-        this.userService.getAll().subscribe(users => { this.users = users; });
+    private loadAllServiceRequests() {
+        this.serviceRequestService.getAll().subscribe(serviceRequests => { this.serviceRequests = serviceRequests; });
     }
 }

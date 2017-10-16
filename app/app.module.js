@@ -26,6 +26,7 @@ var index_8 = require("./manager/index");
 var index_9 = require("./volunteer/index");
 var index_10 = require("./login/index");
 var index_11 = require("./register/index");
+var index_12 = require("./serviceRequest/index");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -44,7 +45,9 @@ var AppModule = /** @class */ (function () {
                 index_8.ManagerComponent,
                 index_9.VolunteerComponent,
                 index_10.LoginComponent,
-                index_11.RegisterComponent
+                index_11.RegisterComponent,
+                index_12.ServiceRequestComponent,
+                index_12.ServiceRequestForm
             ],
             providers: [
                 index_5.ManagerGuard,
@@ -53,6 +56,7 @@ var AppModule = /** @class */ (function () {
                 index_6.AlertService,
                 index_6.AuthenticationService,
                 index_6.UserService,
+                index_6.ServiceRequestService,
                 // providers used to create fake backend
                 index_1.fakeBackendProvider,
                 testing_1.MockBackend,

@@ -15,12 +15,13 @@ import { AlertComponent } from './_directives/index';
 import { AuthGuard } from './_guards/index';
 import { AdminGuard } from './_guards/index';
 import { ManagerGuard } from './_guards/index';
-import { AlertService, AuthenticationService, UserService } from './_services/index';
+import { AlertService, AuthenticationService, UserService, ServiceRequestService } from './_services/index';
 import { AdminComponent } from './admin/index';
 import { ManagerComponent } from './manager/index';
 import { VolunteerComponent } from './volunteer/index';
 import { LoginComponent } from './login/index';
 import { RegisterComponent } from './register/index';
+import { ServiceRequestComponent, ServiceRequestForm } from './serviceRequest/index';
 
 @NgModule({
     imports: [
@@ -36,7 +37,9 @@ import { RegisterComponent } from './register/index';
         ManagerComponent,
         VolunteerComponent,
         LoginComponent,
-        RegisterComponent
+        RegisterComponent,
+        ServiceRequestComponent,
+        ServiceRequestForm
     ],
     providers: [
         ManagerGuard,
@@ -45,6 +48,7 @@ import { RegisterComponent } from './register/index';
         AlertService,
         AuthenticationService,
         UserService,
+        ServiceRequestService,
 
         // providers used to create fake backend
         fakeBackendProvider,

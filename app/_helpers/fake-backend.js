@@ -5,6 +5,7 @@ var testing_1 = require("@angular/http/testing");
 function fakeBackendFactory(backend, options, realBackend) {
     // array in local storage for registered users
     var users = JSON.parse(localStorage.getItem('users')) || [];
+    var serviceRequests = JSON.parse(localStorage.getItem('serviceRequests')) || [];
     // configure fake backend
     backend.connections.subscribe(function (connection) {
         // wrap in timeout to simulate server api call
@@ -50,14 +51,30 @@ function fakeBackendFactory(backend, options, realBackend) {
                 }
                 return;
             }
+            // get service requests
+            if (connection.request.url.endsWith('/api/serviceRequests') && connection.request.method === http_1.RequestMethod.Get) {
+                connection.mockRespond(new http_1.Response(new http_1.ResponseOptions({ status: 200, body: serviceRequests })));
+                return;
+            }
+            // get service request by id
+            if (connection.request.url.match(/\/api\/serviceRequests\/\d+$/) && connection.request.method === http_1.RequestMethod.Get) {
+                // find service request by id in service requests array
+                var urlParts = connection.request.url.split('/');
+                var id_1 = parseInt(urlParts[urlParts.length - 1]);
+                var matchedServiceRequests = serviceRequests.filter(function (serviceRequest) { return serviceRequest.id === id_1; });
+                var serviceRequest = matchedServiceRequests.length ? matchedServiceRequests[0] : null;
+                // respond 200 OK with service request
+                connection.mockRespond(new http_1.Response(new http_1.ResponseOptions({ status: 200, body: serviceRequest })));
+                return;
+            }
             // get user by id
             if (connection.request.url.match(/\/api\/users\/\d+$/) && connection.request.method === http_1.RequestMethod.Get) {
                 // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
                 if (connection.request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
                     // find user by id in users array
                     var urlParts = connection.request.url.split('/');
-                    var id_1 = parseInt(urlParts[urlParts.length - 1]);
-                    var matchedUsers = users.filter(function (user) { return user.id === id_1; });
+                    var id_2 = parseInt(urlParts[urlParts.length - 1]);
+                    var matchedUsers = users.filter(function (user) { return user.id === id_2; });
                     var user = matchedUsers.length ? matchedUsers[0] : null;
                     // respond 200 OK with user
                     connection.mockRespond(new http_1.Response(new http_1.ResponseOptions({ status: 200, body: user })));
@@ -66,6 +83,18 @@ function fakeBackendFactory(backend, options, realBackend) {
                     // return 401 not authorised if token is null or invalid
                     connection.mockRespond(new http_1.Response(new http_1.ResponseOptions({ status: 401 })));
                 }
+                return;
+            }
+            // create service
+            if (connection.request.url.endsWith('/api/serviceRequests') && connection.request.method === http_1.RequestMethod.Post) {
+                // get new serviceRequest object from post body
+                var newServiceRequest = JSON.parse(connection.request.getBody());
+                // save new service request
+                newServiceRequest.id = serviceRequests.length + 1;
+                serviceRequests.push(newServiceRequest);
+                localStorage.setItem('serviceRequests', JSON.stringify(serviceRequests));
+                // respond 200 OK
+                connection.mockRespond(new http_1.Response(new http_1.ResponseOptions({ status: 200 })));
                 return;
             }
             // create user
@@ -81,6 +110,24 @@ function fakeBackendFactory(backend, options, realBackend) {
                 newUser_1.id = users.length + 1;
                 users.push(newUser_1);
                 localStorage.setItem('users', JSON.stringify(users));
+                // respond 200 OK
+                connection.mockRespond(new http_1.Response(new http_1.ResponseOptions({ status: 200 })));
+                return;
+            }
+            // delete service request
+            if (connection.request.url.match(/\/api\/serviceRequests\/\d+$/) && connection.request.method === http_1.RequestMethod.Delete) {
+                // find service request by id in service requests array
+                var urlParts = connection.request.url.split('/');
+                var id = parseInt(urlParts[urlParts.length - 1]);
+                for (var i = 0; i < serviceRequests.length; i++) {
+                    var serviceRequest = serviceRequests[i];
+                    if (serviceRequest.id === id) {
+                        // delete service request
+                        serviceRequests.splice(i, 1);
+                        localStorage.setItem('serviceRequests', JSON.stringify(serviceRequests));
+                        break;
+                    }
+                }
                 // respond 200 OK
                 connection.mockRespond(new http_1.Response(new http_1.ResponseOptions({ status: 200 })));
                 return;

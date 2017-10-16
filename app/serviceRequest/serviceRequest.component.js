@@ -12,7 +12,8 @@ var ServiceRequestComponent = /** @class */ (function () {
     }
     ServiceRequestComponent = __decorate([
         core_1.Component({
-            templateUrl: './serviceRequest.component.html'
+            moduleId: module.id,
+            templateUrl: 'serviceRequest.component.html'
         })
     ], ServiceRequestComponent);
     return ServiceRequestComponent;

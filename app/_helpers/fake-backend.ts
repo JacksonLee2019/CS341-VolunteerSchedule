@@ -4,6 +4,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOptions, realBackend: XHRBackend) {
     // array in local storage for registered users
     let users: any[] = JSON.parse(localStorage.getItem('users')) || [];
+    let serviceRequests: any[] = JSON.parse(localStorage.getItem('serviceRequests')) || [];
 
     // configure fake backend
     backend.connections.subscribe((connection: MockConnection) => {
@@ -55,6 +56,28 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
                 return;
             }
 
+            // get service requests
+            if (connection.request.url.endsWith('/api/serviceRequests') && connection.request.method === RequestMethod.Get) {
+                connection.mockRespond(new Response(new ResponseOptions({ status: 200, body: serviceRequests })));
+                
+                return;
+            }
+
+            // get service request by id
+            if (connection.request.url.match(/\/api\/serviceRequests\/\d+$/) && connection.request.method === RequestMethod.Get) {
+
+                // find service request by id in service requests array
+                let urlParts = connection.request.url.split('/');
+                let id = parseInt(urlParts[urlParts.length - 1]);
+                let matchedServiceRequests = serviceRequests.filter(serviceRequest => { return serviceRequest.id === id; });
+                let serviceRequest = matchedServiceRequests.length ? matchedServiceRequests[0] : null;
+
+                // respond 200 OK with service request
+                connection.mockRespond(new Response(new ResponseOptions({ status: 200, body: serviceRequest })));
+
+                return;
+            }
+
             // get user by id
             if (connection.request.url.match(/\/api\/users\/\d+$/) && connection.request.method === RequestMethod.Get) {
                 // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
@@ -71,6 +94,22 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
                     // return 401 not authorised if token is null or invalid
                     connection.mockRespond(new Response(new ResponseOptions({ status: 401 })));
                 }
+
+                return;
+            }
+
+            // create service
+            if (connection.request.url.endsWith('/api/serviceRequests') && connection.request.method === RequestMethod.Post) {
+                // get new serviceRequest object from post body
+                let newServiceRequest = JSON.parse(connection.request.getBody());
+
+                // save new service request
+                newServiceRequest.id = serviceRequests.length + 1;
+                serviceRequests.push(newServiceRequest);
+                localStorage.setItem('serviceRequests', JSON.stringify(serviceRequests));
+
+                // respond 200 OK
+                connection.mockRespond(new Response(new ResponseOptions({ status: 200 })));
 
                 return;
             }
@@ -95,6 +134,27 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
                 connection.mockRespond(new Response(new ResponseOptions({ status: 200 })));
 
                 return;
+            }
+
+            // delete service request
+            if (connection.request.url.match(/\/api\/serviceRequests\/\d+$/) && connection.request.method === RequestMethod.Delete) {
+                // find service request by id in service requests array
+                let urlParts = connection.request.url.split('/');
+                let id = parseInt(urlParts[urlParts.length - 1]);
+                for (let i = 0; i < serviceRequests.length; i++) {
+                    let serviceRequest = serviceRequests[i];
+                    if (serviceRequest.id === id) {
+                        // delete service request
+                        serviceRequests.splice(i, 1);
+                        localStorage.setItem('serviceRequests', JSON.stringify(serviceRequests));
+                        break;
+                    }
+                }
+
+                // respond 200 OK
+                connection.mockRespond(new Response(new ResponseOptions({ status: 200 })));
+
+            return;
             }
 
             // delete user

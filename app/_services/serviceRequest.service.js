@@ -16,19 +16,24 @@ var ServiceRequestService = /** @class */ (function () {
         this.http = http;
     }
     ServiceRequestService.prototype.getAll = function () {
-        return this.http.get('/api/serviceRequests');
+        return this.http.get('/api/serviceRequests').map(function (response) { return response.json(); });
+        ;
     };
     ServiceRequestService.prototype.getById = function (id) {
-        return this.http.get('/api/serviceRequests/' + id);
+        return this.http.get('/api/serviceRequests/' + id).map(function (response) { return response.json(); });
+        ;
     };
     ServiceRequestService.prototype.create = function (serviceRequest) {
-        return this.http.post('/api/serviceRequests', serviceRequest);
+        return this.http.post('/api/serviceRequests', serviceRequest).map(function (response) { return response.json(); });
+        ;
     };
     ServiceRequestService.prototype.update = function (serviceRequest) {
-        return this.http.put('/api/serviceRequests/' + serviceRequest.id, serviceRequest);
+        return this.http.put('/api/serviceRequests/' + serviceRequest.id, serviceRequest).map(function (response) { return response.json(); });
+        ;
     };
     ServiceRequestService.prototype.delete = function (id) {
-        return this.http.delete('/api/serviceRequests/' + id);
+        return this.http.delete('/api/serviceRequests/' + id).map(function (response) { return response.json(); });
+        ;
     };
     ServiceRequestService = __decorate([
         core_1.Injectable(),
