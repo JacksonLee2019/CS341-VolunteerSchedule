@@ -1,6 +1,6 @@
 ﻿export class User {
     systemRole: string;
-    id: number;
+    userId: number;
     email: string;
     password: string;
     firstName: string;

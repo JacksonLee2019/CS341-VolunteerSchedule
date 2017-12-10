@@ -13,7 +13,9 @@
     <ul>
         <li *ngFor="let serviceRequest of serviceRequests">
             <h3>{{serviceRequest.title}}</h3> 
-            <p>Description: {{serviceRequest.description}}</p> 
+            <p>Start Time: {{serviceRequest.starttime}}</p> 
+            <p>End Time: {{serviceRequest.endtime}}</p>
+            <p>Location: {{serviceRequest.location}}</p>
             <p>Volunteers Needed: {{serviceRequest.volunteersNeeded}}</p>
             - <a (click)="deleteServiceRequest(serviceRequest.id)">Delete</a>
         </li>
@@ -21,9 +23,3 @@
     <p><a [routerLink]="['/serviceForm']" class="btn btn-link">Create a Service Request</a></p>
     <p><a [routerLink]="['/login']">Logout</a></p>
 </div>
-
-<!--
-    the list of users can be used for the admin view
-    when users sign up for an event, add them to a list for that event, display as shown above
-    create an event class, contains: name, description, number of volunteers, time, location, list of volunteers
--->

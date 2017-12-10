@@ -28,7 +28,7 @@ var ServiceRequestService = /** @class */ (function () {
         ;
     };
     ServiceRequestService.prototype.update = function (serviceRequest) {
-        return this.http.put('/api/serviceRequests/' + serviceRequest.id, serviceRequest).map(function (response) { return response.json(); });
+        return this.http.put('/api/serviceRequests/' + serviceRequest.serviceId, serviceRequest).map(function (response) { return response.json(); });
         ;
     };
     ServiceRequestService.prototype.delete = function (id) {

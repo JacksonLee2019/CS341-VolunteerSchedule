@@ -4,7 +4,9 @@
     <ul>
         <li *ngFor="let serviceRequest of serviceRequests">
             <h3>{{serviceRequest.title}}</h3> 
-            <p>Description: {{serviceRequest.description}}</p> 
+            <p>Start Time: {{serviceRequest.starttime}}</p> 
+            <p>End Time: {{serviceRequest.endtime}}</p>
+            <p>Location: {{serviceRequest.location}}</p>
             <p>Volunteers Needed: {{serviceRequest.volunteersNeeded}}</p>
             - <a (click)="deleteServiceRequest(serviceRequest.id)">Delete</a>
         </li>
