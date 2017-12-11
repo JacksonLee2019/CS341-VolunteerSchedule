@@ -9,7 +9,7 @@
                 <p>End Time: {{serviceRequest.endtime}}</p>
                 <p>Location: {{serviceRequest.location}}</p>
                 <p>Volunteers Needed: {{serviceRequest.volunteersNeeded}}</p>
-                <button>Sign Up</button>
+                <button (click)="signUp(currentUser, serviceRequest)">Sign Up</button>
             </div>
         </li>
     </ul>

@@ -1,3 +1,5 @@
+import { User } from "../../CS341-VolunteerSchedule-master/src/entity/User";
+
 export class ServiceRequest {
     title: String;
     serviceId: number;

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import { User, ServiceRequest } from '../_models/index';
 import { UserService, ServiceRequestService } from '../_services/index';
 
@@ -28,5 +27,14 @@ export class VolunteerComponent implements OnInit{
 
     private loadAllServiceRequests() {
         this.serviceRequestService.getAll().subscribe(serviceRequests => { this.serviceRequests = serviceRequests; });
+    }
+
+    signUp(user: User, serviceRequest: ServiceRequest) {
+        console.log(user.email);
+        console.log(serviceRequest.title);
+        //serviceRequest.volunteerList[serviceRequest.numVolunteers] = user.email;
+        serviceRequest.volunteersNeeded--;
+        serviceRequest.numVolunteers++;
+        //this.serviceRequestService.update(serviceRequest).subscribe(() => { this.loadAllServiceRequests() });
     }
 }

@@ -30,6 +30,14 @@ var VolunteerComponent = /** @class */ (function () {
         var _this = this;
         this.serviceRequestService.getAll().subscribe(function (serviceRequests) { _this.serviceRequests = serviceRequests; });
     };
+    VolunteerComponent.prototype.signUp = function (user, serviceRequest) {
+        console.log(user.email);
+        console.log(serviceRequest.title);
+        //serviceRequest.volunteerList[serviceRequest.numVolunteers] = user.email;
+        serviceRequest.volunteersNeeded--;
+        serviceRequest.numVolunteers++;
+        //this.serviceRequestService.update(serviceRequest).subscribe(() => { this.loadAllServiceRequests() });
+    };
     VolunteerComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
