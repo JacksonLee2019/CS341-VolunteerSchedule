@@ -5,7 +5,7 @@ import { ServiceRequest } from '../_models/index';
 
 @Injectable()
 export class ServiceRequestService {
-    constructor(private http: Http) { }
+    constructor(private http: Http) {}
 
     getAll() {
         return this.http.get('/api/serviceRequests').map((response: Response) => response.json());;
@@ -20,7 +20,7 @@ export class ServiceRequestService {
     }
 
     update(serviceRequest: ServiceRequest) {
-        return this.http.put('/api/serviceRequests/' + serviceRequest.serviceId, serviceRequest).map((response: Response) => response.json());;
+        return this.http.put('/api/serviceRequests/' + serviceRequest.id, serviceRequest).map((response: Response) => response.json());;
     }
 
     delete(id: number) {

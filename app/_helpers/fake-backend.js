@@ -25,7 +25,7 @@ function fakeBackendFactory(backend, options, realBackend) {
                         status: 200,
                         body: {
                             systemRole: user.systemRole,
-                            userId: user.userId,
+                            id: user.id,
                             email: user.email,
                             firstName: user.firstName,
                             lastName: user.lastName,
@@ -60,8 +60,8 @@ function fakeBackendFactory(backend, options, realBackend) {
             if (connection.request.url.match(/\/api\/serviceRequests\/\d+$/) && connection.request.method === http_1.RequestMethod.Get) {
                 // find service request by id in service requests array
                 var urlParts = connection.request.url.split('/');
-                var serviceId_1 = parseInt(urlParts[urlParts.length - 1]);
-                var matchedServiceRequests = serviceRequests.filter(function (serviceRequest) { return serviceRequest.serviceId === serviceId_1; });
+                var id_1 = parseInt(urlParts[urlParts.length - 1]);
+                var matchedServiceRequests = serviceRequests.filter(function (serviceRequest) { return serviceRequest.id === id_1; });
                 var serviceRequest = matchedServiceRequests.length ? matchedServiceRequests[0] : null;
                 // respond 200 OK with service request
                 connection.mockRespond(new http_1.Response(new http_1.ResponseOptions({ status: 200, body: serviceRequest })));
@@ -73,8 +73,8 @@ function fakeBackendFactory(backend, options, realBackend) {
                 if (connection.request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
                     // find user by id in users array
                     var urlParts = connection.request.url.split('/');
-                    var userId_1 = parseInt(urlParts[urlParts.length - 1]);
-                    var matchedUsers = users.filter(function (user) { return user.userId === userId_1; });
+                    var id_2 = parseInt(urlParts[urlParts.length - 1]);
+                    var matchedUsers = users.filter(function (user) { return user.id === id_2; });
                     var user = matchedUsers.length ? matchedUsers[0] : null;
                     // respond 200 OK with user
                     connection.mockRespond(new http_1.Response(new http_1.ResponseOptions({ status: 200, body: user })));
@@ -85,12 +85,12 @@ function fakeBackendFactory(backend, options, realBackend) {
                 }
                 return;
             }
-            // create service
+            // create service request
             if (connection.request.url.endsWith('/api/serviceRequests') && connection.request.method === http_1.RequestMethod.Post) {
                 // get new serviceRequest object from post body
                 var newServiceRequest = JSON.parse(connection.request.getBody());
                 // save new service request
-                newServiceRequest.serviceId = serviceRequests.length + 1;
+                newServiceRequest.id = serviceRequests.length + 1;
                 serviceRequests.push(newServiceRequest);
                 localStorage.setItem('serviceRequests', JSON.stringify(serviceRequests));
                 // respond 200 OK
@@ -107,7 +107,7 @@ function fakeBackendFactory(backend, options, realBackend) {
                     return connection.mockError(new Error('email "' + newUser_1.email + '" is already taken'));
                 }
                 // save new user
-                newUser_1.userId = users.length + 1;
+                newUser_1.id = users.length + 1;
                 users.push(newUser_1);
                 localStorage.setItem('users', JSON.stringify(users));
                 // respond 200 OK
@@ -118,10 +118,10 @@ function fakeBackendFactory(backend, options, realBackend) {
             if (connection.request.url.match(/\/api\/serviceRequests\/\d+$/) && connection.request.method === http_1.RequestMethod.Delete) {
                 // find service request by id in service requests array
                 var urlParts = connection.request.url.split('/');
-                var serviceId = parseInt(urlParts[urlParts.length - 1]);
+                var id = parseInt(urlParts[urlParts.length - 1]);
                 for (var i = 0; i < serviceRequests.length; i++) {
                     var serviceRequest = serviceRequests[i];
-                    if (serviceRequest.serviceId === serviceId) {
+                    if (serviceRequest.id === id) {
                         // delete service request
                         serviceRequests.splice(i, 1);
                         localStorage.setItem('serviceRequests', JSON.stringify(serviceRequests));
@@ -138,10 +138,10 @@ function fakeBackendFactory(backend, options, realBackend) {
                 if (connection.request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
                     // find user by id in users array
                     var urlParts = connection.request.url.split('/');
-                    var userId = parseInt(urlParts[urlParts.length - 1]);
+                    var id = parseInt(urlParts[urlParts.length - 1]);
                     for (var i = 0; i < users.length; i++) {
                         var user = users[i];
-                        if (user.userId === userId) {
+                        if (user.id === id) {
                             // delete user
                             users.splice(i, 1);
                             localStorage.setItem('users', JSON.stringify(users));

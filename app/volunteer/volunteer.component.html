@@ -9,7 +9,8 @@
                 <p>End Time: {{serviceRequest.endtime}}</p>
                 <p>Location: {{serviceRequest.location}}</p>
                 <p>Volunteers Needed: {{serviceRequest.volunteersNeeded}}</p>
-                <button (click)="signUp(currentUser, serviceRequest)">Sign Up</button>
+                <button [disabled]="serviceRequest.signedUp" (click)="signUp(currentUser, serviceRequest)">Sign Up</button>
+                <button [disabled]="!serviceRequest.signedUp" (click)="cancel(currentUser, serviceRequest)">Cancel</button>
             </div>
         </li>
     </ul>

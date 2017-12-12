@@ -29,7 +29,7 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
                         status: 200,
                         body: {
                             systemRole: user.systemRole,
-                            userId: user.userId,
+                            id: user.id,
                             email: user.email,
                             firstName: user.firstName,
                             lastName: user.lastName,
@@ -69,8 +69,8 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
 
                 // find service request by id in service requests array
                 let urlParts = connection.request.url.split('/');
-                let serviceId = parseInt(urlParts[urlParts.length - 1]);
-                let matchedServiceRequests = serviceRequests.filter(serviceRequest => { return serviceRequest.serviceId === serviceId; });
+                let id = parseInt(urlParts[urlParts.length - 1]);
+                let matchedServiceRequests = serviceRequests.filter(serviceRequest => { return serviceRequest.id === id; });
                 let serviceRequest = matchedServiceRequests.length ? matchedServiceRequests[0] : null;
 
                 // respond 200 OK with service request
@@ -85,8 +85,8 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
                 if (connection.request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
                     // find user by id in users array
                     let urlParts = connection.request.url.split('/');
-                    let userId = parseInt(urlParts[urlParts.length - 1]);
-                    let matchedUsers = users.filter(user => { return user.userId === userId; });
+                    let id = parseInt(urlParts[urlParts.length - 1]);
+                    let matchedUsers = users.filter(user => { return user.id === id; });
                     let user = matchedUsers.length ? matchedUsers[0] : null;
 
                     // respond 200 OK with user
@@ -99,13 +99,13 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
                 return;
             }
 
-            // create service
+            // create service request
             if (connection.request.url.endsWith('/api/serviceRequests') && connection.request.method === RequestMethod.Post) {
                 // get new serviceRequest object from post body
                 let newServiceRequest = JSON.parse(connection.request.getBody());
 
                 // save new service request
-                newServiceRequest.serviceId = serviceRequests.length + 1;
+                newServiceRequest.id = serviceRequests.length + 1;
                 serviceRequests.push(newServiceRequest);
                 localStorage.setItem('serviceRequests', JSON.stringify(serviceRequests));
 
@@ -127,7 +127,7 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
                 }
 
                 // save new user
-                newUser.userId = users.length + 1;
+                newUser.id = users.length + 1;
                 users.push(newUser);
                 localStorage.setItem('users', JSON.stringify(users));
 
@@ -141,10 +141,10 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
             if (connection.request.url.match(/\/api\/serviceRequests\/\d+$/) && connection.request.method === RequestMethod.Delete) {
                 // find service request by id in service requests array
                 let urlParts = connection.request.url.split('/');
-                let serviceId = parseInt(urlParts[urlParts.length - 1]);
+                let id = parseInt(urlParts[urlParts.length - 1]);
                 for (let i = 0; i < serviceRequests.length; i++) {
                     let serviceRequest = serviceRequests[i];
-                    if (serviceRequest.serviceId === serviceId) {
+                    if (serviceRequest.id === id) {
                         // delete service request
                         serviceRequests.splice(i, 1);
                         localStorage.setItem('serviceRequests', JSON.stringify(serviceRequests));
@@ -164,10 +164,10 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
                 if (connection.request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
                     // find user by id in users array
                     let urlParts = connection.request.url.split('/');
-                    let userId = parseInt(urlParts[urlParts.length - 1]);
+                    let id = parseInt(urlParts[urlParts.length - 1]);
                     for (let i = 0; i < users.length; i++) {
                         let user = users[i];
-                        if (user.userId === userId) {
+                        if (user.id === id) {
                             // delete user
                             users.splice(i, 1);
                             localStorage.setItem('users', JSON.stringify(users));

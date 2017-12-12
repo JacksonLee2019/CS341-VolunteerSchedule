@@ -30,11 +30,29 @@ export class VolunteerComponent implements OnInit{
     }
 
     signUp(user: User, serviceRequest: ServiceRequest) {
-        console.log(user.email);
-        console.log(serviceRequest.title);
-        //serviceRequest.volunteerList[serviceRequest.numVolunteers] = user.email;
-        serviceRequest.volunteersNeeded--;
-        serviceRequest.numVolunteers++;
-        //this.serviceRequestService.update(serviceRequest).subscribe(() => { this.loadAllServiceRequests() });
+
+        //check if the user is already signed up
+        //for(var i = 0; i < serviceRequest.volunteerList.length; i++) {
+            //if(serviceRequest.volunteerList[i] === user.email) {
+                //return;
+            //}
+        //}
+
+        //if not add them to the volunteer list
+        if(serviceRequest.volunteersNeeded > 0) {
+            //serviceRequest.volunteerList[serviceRequest.numVolunteers] = user.email;
+            serviceRequest.volunteersNeeded--;
+            serviceRequest.numVolunteers++;
+            serviceRequest.signedUp = true;
+        } else {
+            console.log("This service has enough volunteers");
+        }
+    }
+
+    cancel(user: User, serviceRequest: ServiceRequest) {
+        serviceRequest.volunteersNeeded++;
+        serviceRequest.numVolunteers--;
+        serviceRequest.signedUp = false;
+        //serviceRequest.volunteerList[numVolunteers]
     }
 }
