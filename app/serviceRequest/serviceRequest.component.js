@@ -6,17 +6,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var ServiceRequestComponent = /** @class */ (function () {
-    function ServiceRequestComponent() {
-    }
-    ServiceRequestComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            templateUrl: 'serviceRequest.component.html'
-        })
-    ], ServiceRequestComponent);
-    return ServiceRequestComponent;
-}());
+const core_1 = require("@angular/core");
+let ServiceRequestComponent = class ServiceRequestComponent {
+};
+ServiceRequestComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        templateUrl: 'serviceRequest.component.html'
+    })
+], ServiceRequestComponent);
 exports.ServiceRequestComponent = ServiceRequestComponent;
 //# sourceMappingURL=serviceRequest.component.js.map

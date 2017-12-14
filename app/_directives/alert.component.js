@@ -9,28 +9,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var index_1 = require("../_services/index");
-var AlertComponent = /** @class */ (function () {
-    function AlertComponent(alertService) {
-        var _this = this;
+const core_1 = require("@angular/core");
+const index_1 = require("../_services/index");
+let AlertComponent = class AlertComponent {
+    constructor(alertService) {
         this.alertService = alertService;
         // subscribe to alert messages
-        this.subscription = alertService.getMessage().subscribe(function (message) { _this.message = message; });
+        this.subscription = alertService.getMessage().subscribe(message => { this.message = message; });
     }
-    AlertComponent.prototype.ngOnDestroy = function () {
+    ngOnDestroy() {
         // unsubscribe on destroy to prevent memory leaks
         this.subscription.unsubscribe();
-    };
-    AlertComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'alert',
-            templateUrl: 'alert.component.html'
-        }),
-        __metadata("design:paramtypes", [index_1.AlertService])
-    ], AlertComponent);
-    return AlertComponent;
-}());
+    }
+};
+AlertComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'alert',
+        templateUrl: 'alert.component.html'
+    }),
+    __metadata("design:paramtypes", [index_1.AlertService])
+], AlertComponent);
 exports.AlertComponent = AlertComponent;
 //# sourceMappingURL=alert.component.js.map

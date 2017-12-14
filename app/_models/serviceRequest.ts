@@ -1,14 +1,33 @@
-import { User } from "../../CS341-VolunteerSchedule-master/src/entity/User";
+import {Entity, ManyToMany, OneToOne, JoinTable, JoinColumn, PrimaryGeneratedColumn, Column} from "typeorm";
+import { User } from "./user";
 
-export class ServiceRequest {
-    title: String;
+@Entity()
+export class ServiceRequest 
+{
+    @PrimaryGeneratedColumn()
     id: number;
+
+    @Column()
+    title: string;
+
+    @Column()
     startTime: Date;
+
+    @Column()
     endTime: Date;
+
+    @Column()
     dateOf: Date;
-    location: String;
+
+    @Column()
+    location: string;
+
+    @Column()
     volunteersNeeded: number;
+
+    @Column()
     numVolunteers: number;
-    signedUp: boolean = false;
-    volunteerList: String[];
+
+    @Column()
+    signedUp: boolean;
 }

@@ -9,44 +9,39 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var index_1 = require("../_services/index");
-var AdminComponent = /** @class */ (function () {
-    function AdminComponent(userService, serviceRequestService) {
+const core_1 = require("@angular/core");
+const index_1 = require("../_services/index");
+let AdminComponent = class AdminComponent {
+    constructor(userService, serviceRequestService) {
         this.userService = userService;
         this.serviceRequestService = serviceRequestService;
         this.users = [];
         this.serviceRequests = [];
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     }
-    AdminComponent.prototype.ngOnInit = function () {
+    ngOnInit() {
         this.loadAllUsers();
         this.loadAllServiceRequests();
-    };
-    AdminComponent.prototype.deleteUser = function (id) {
-        var _this = this;
-        this.userService.delete(id).subscribe(function () { _this.loadAllUsers(); });
-    };
-    AdminComponent.prototype.deleteServiceRequest = function (id) {
-        var _this = this;
-        this.serviceRequestService.delete(id).subscribe(function () { _this.loadAllServiceRequests(); });
-    };
-    AdminComponent.prototype.loadAllServiceRequests = function () {
-        var _this = this;
-        this.serviceRequestService.getAll().subscribe(function (serviceRequests) { _this.serviceRequests = serviceRequests; });
-    };
-    AdminComponent.prototype.loadAllUsers = function () {
-        var _this = this;
-        this.userService.getAll().subscribe(function (users) { _this.users = users; });
-    };
-    AdminComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            templateUrl: 'admin.component.html'
-        }),
-        __metadata("design:paramtypes", [index_1.UserService, index_1.ServiceRequestService])
-    ], AdminComponent);
-    return AdminComponent;
-}());
+    }
+    deleteUser(id) {
+        this.userService.delete(id).subscribe(() => { this.loadAllUsers(); });
+    }
+    deleteServiceRequest(id) {
+        this.serviceRequestService.delete(id).subscribe(() => { this.loadAllServiceRequests(); });
+    }
+    loadAllServiceRequests() {
+        this.serviceRequestService.getAll().subscribe(serviceRequests => { this.serviceRequests = serviceRequests; });
+    }
+    loadAllUsers() {
+        this.userService.getAll().subscribe(users => { this.users = users; });
+    }
+};
+AdminComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        templateUrl: 'admin.component.html'
+    }),
+    __metadata("design:paramtypes", [index_1.UserService, index_1.ServiceRequestService])
+], AdminComponent);
 exports.AdminComponent = AdminComponent;
 //# sourceMappingURL=admin.component.js.map

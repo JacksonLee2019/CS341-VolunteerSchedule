@@ -9,13 +9,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
-var AuthGuard = /** @class */ (function () {
-    function AuthGuard(router) {
+const core_1 = require("@angular/core");
+const router_1 = require("@angular/router");
+let AuthGuard = class AuthGuard {
+    constructor(router) {
         this.router = router;
     }
-    AuthGuard.prototype.canActivate = function (route, state) {
+    canActivate(route, state) {
         if (localStorage.getItem('currentUser')) {
             // logged in so return true
             return true;
@@ -23,12 +23,11 @@ var AuthGuard = /** @class */ (function () {
         // not logged in so redirect to login page with the return url
         this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
         return false;
-    };
-    AuthGuard = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [router_1.Router])
-    ], AuthGuard);
-    return AuthGuard;
-}());
+    }
+};
+AuthGuard = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [router_1.Router])
+], AuthGuard);
 exports.AuthGuard = AuthGuard;
 //# sourceMappingURL=auth.guard.js.map

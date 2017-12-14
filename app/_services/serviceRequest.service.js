@@ -9,37 +9,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var http_1 = require("@angular/http");
-var ServiceRequestService = /** @class */ (function () {
-    function ServiceRequestService(http) {
+const core_1 = require("@angular/core");
+const http_1 = require("@angular/http");
+let ServiceRequestService = class ServiceRequestService {
+    constructor(http) {
         this.http = http;
     }
-    ServiceRequestService.prototype.getAll = function () {
-        return this.http.get('/api/serviceRequests').map(function (response) { return response.json(); });
+    getAll() {
+        return this.http.get('/api/serviceRequests').map((response) => response.json());
         ;
-    };
-    ServiceRequestService.prototype.getById = function (id) {
-        return this.http.get('/api/serviceRequests/' + id).map(function (response) { return response.json(); });
+    }
+    getById(id) {
+        return this.http.get('/api/serviceRequests/' + id).map((response) => response.json());
         ;
-    };
-    ServiceRequestService.prototype.create = function (serviceRequest) {
-        return this.http.post('/api/serviceRequests', serviceRequest).map(function (response) { return response.json(); });
+    }
+    create(serviceRequest) {
+        return this.http.post('/api/serviceRequests', serviceRequest).map((response) => response.json());
         ;
-    };
-    ServiceRequestService.prototype.update = function (serviceRequest) {
-        return this.http.put('/api/serviceRequests/' + serviceRequest.id, serviceRequest).map(function (response) { return response.json(); });
+    }
+    update(serviceRequest) {
+        return this.http.put('/api/serviceRequests/' + serviceRequest.id, serviceRequest).map((response) => response.json());
         ;
-    };
-    ServiceRequestService.prototype.delete = function (id) {
-        return this.http.delete('/api/serviceRequests/' + id).map(function (response) { return response.json(); });
+    }
+    delete(id) {
+        return this.http.delete('/api/serviceRequests/' + id).map((response) => response.json());
         ;
-    };
-    ServiceRequestService = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [http_1.Http])
-    ], ServiceRequestService);
-    return ServiceRequestService;
-}());
+    }
+};
+ServiceRequestService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [http_1.Http])
+], ServiceRequestService);
 exports.ServiceRequestService = ServiceRequestService;
 //# sourceMappingURL=serviceRequest.service.js.map

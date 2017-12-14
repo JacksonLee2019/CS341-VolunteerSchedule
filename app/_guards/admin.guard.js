@@ -9,26 +9,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
-var AdminGuard = /** @class */ (function () {
-    function AdminGuard(router) {
+const core_1 = require("@angular/core");
+const router_1 = require("@angular/router");
+let AdminGuard = class AdminGuard {
+    constructor(router) {
         this.router = router;
     }
-    AdminGuard.prototype.canActivate = function (route, state) {
-        var obj = JSON.parse(localStorage.getItem('currentUser'));
+    canActivate(route, state) {
+        let obj = JSON.parse(localStorage.getItem('currentUser'));
         if (obj.systemRole === 'admin') {
             return true;
         }
         // not logged in so redirect to login page with the return url
         this.router.navigate([obj.systemRole], { queryParams: { returnUrl: state.url } });
         return false;
-    };
-    AdminGuard = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [router_1.Router])
-    ], AdminGuard);
-    return AdminGuard;
-}());
+    }
+};
+AdminGuard = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [router_1.Router])
+], AdminGuard);
 exports.AdminGuard = AdminGuard;
 //# sourceMappingURL=admin.guard.js.map

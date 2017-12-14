@@ -9,11 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
-var index_1 = require("../_services/index");
-var LoginComponent = /** @class */ (function () {
-    function LoginComponent(route, router, authenticationService, alertService) {
+const core_1 = require("@angular/core");
+const router_1 = require("@angular/router");
+const index_1 = require("../_services/index");
+let LoginComponent = class LoginComponent {
+    constructor(route, router, authenticationService, alertService) {
         this.route = route;
         this.router = router;
         this.authenticationService = authenticationService;
@@ -21,32 +21,30 @@ var LoginComponent = /** @class */ (function () {
         this.model = {};
         this.loading = false;
     }
-    LoginComponent.prototype.ngOnInit = function () {
+    ngOnInit() {
         // reset login status
         this.authenticationService.logout();
-    };
-    LoginComponent.prototype.login = function () {
-        var _this = this;
+    }
+    login() {
         this.loading = true;
         this.authenticationService.login(this.model.email, this.model.password)
-            .subscribe(function (data) {
-            _this.router.navigate([data.systemRole]);
-        }, function (error) {
-            _this.alertService.error(error);
-            _this.loading = false;
+            .subscribe(data => {
+            this.router.navigate([data.systemRole]);
+        }, error => {
+            this.alertService.error(error);
+            this.loading = false;
         });
-    };
-    LoginComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            templateUrl: 'login.component.html'
-        }),
-        __metadata("design:paramtypes", [router_1.ActivatedRoute,
-            router_1.Router,
-            index_1.AuthenticationService,
-            index_1.AlertService])
-    ], LoginComponent);
-    return LoginComponent;
-}());
+    }
+};
+LoginComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        templateUrl: 'login.component.html'
+    }),
+    __metadata("design:paramtypes", [router_1.ActivatedRoute,
+        router_1.Router,
+        index_1.AuthenticationService,
+        index_1.AlertService])
+], LoginComponent);
 exports.LoginComponent = LoginComponent;
 //# sourceMappingURL=login.component.js.map

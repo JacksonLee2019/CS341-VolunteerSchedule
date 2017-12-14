@@ -9,35 +9,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var http_1 = require("@angular/http");
+const core_1 = require("@angular/core");
+const http_1 = require("@angular/http");
 require("rxjs/add/operator/map");
-var AuthenticationService = /** @class */ (function () {
-    function AuthenticationService(http) {
+let AuthenticationService = class AuthenticationService {
+    constructor(http) {
         this.http = http;
     }
     //possible use of boolean here in the login mehtod
-    AuthenticationService.prototype.login = function (email, password) {
+    login(email, password) {
         return this.http.post('/api/authenticate', JSON.stringify({ email: email, password: password }))
-            .map(function (response) {
+            .map((response) => {
             // login successful if there's a jwt token in the response
-            var user = response.json();
+            let user = response.json();
             if (user && user.token) {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('currentUser', JSON.stringify(user));
             }
             return user;
         });
-    };
-    AuthenticationService.prototype.logout = function () {
+    }
+    logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
-    };
-    AuthenticationService = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [http_1.Http])
-    ], AuthenticationService);
-    return AuthenticationService;
-}());
+    }
+};
+AuthenticationService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [http_1.Http])
+], AuthenticationService);
 exports.AuthenticationService = AuthenticationService;
 //# sourceMappingURL=authentication.service.js.map

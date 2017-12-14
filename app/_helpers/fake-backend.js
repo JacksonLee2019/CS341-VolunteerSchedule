@@ -1,26 +1,26 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var http_1 = require("@angular/http");
-var testing_1 = require("@angular/http/testing");
+const http_1 = require("@angular/http");
+const testing_1 = require("@angular/http/testing");
 function fakeBackendFactory(backend, options, realBackend) {
     // array in local storage for registered users
-    var users = JSON.parse(localStorage.getItem('users')) || [];
-    var serviceRequests = JSON.parse(localStorage.getItem('serviceRequests')) || [];
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+    let serviceRequests = JSON.parse(localStorage.getItem('serviceRequests')) || [];
     // configure fake backend
-    backend.connections.subscribe(function (connection) {
+    backend.connections.subscribe((connection) => {
         // wrap in timeout to simulate server api call
-        setTimeout(function () {
+        setTimeout(() => {
             // authenticate
             if (connection.request.url.endsWith('/api/authenticate') && connection.request.method === http_1.RequestMethod.Post) {
                 // get parameters from post request
-                var params_1 = JSON.parse(connection.request.getBody());
+                let params = JSON.parse(connection.request.getBody());
                 // find if any user matches login credentials
-                var filteredUsers = users.filter(function (user) {
-                    return user.email === params_1.email && user.password === params_1.password;
+                let filteredUsers = users.filter(user => {
+                    return user.email === params.email && user.password === params.password;
                 });
                 if (filteredUsers.length) {
                     // if login details are valid return 200 OK with user details and fake jwt token
-                    var user = filteredUsers[0];
+                    let user = filteredUsers[0];
                     connection.mockRespond(new http_1.Response(new http_1.ResponseOptions({
                         status: 200,
                         body: {
@@ -59,10 +59,10 @@ function fakeBackendFactory(backend, options, realBackend) {
             // get service request by id
             if (connection.request.url.match(/\/api\/serviceRequests\/\d+$/) && connection.request.method === http_1.RequestMethod.Get) {
                 // find service request by id in service requests array
-                var urlParts = connection.request.url.split('/');
-                var id_1 = parseInt(urlParts[urlParts.length - 1]);
-                var matchedServiceRequests = serviceRequests.filter(function (serviceRequest) { return serviceRequest.id === id_1; });
-                var serviceRequest = matchedServiceRequests.length ? matchedServiceRequests[0] : null;
+                let urlParts = connection.request.url.split('/');
+                let id = parseInt(urlParts[urlParts.length - 1]);
+                let matchedServiceRequests = serviceRequests.filter(serviceRequest => { return serviceRequest.id === id; });
+                let serviceRequest = matchedServiceRequests.length ? matchedServiceRequests[0] : null;
                 // respond 200 OK with service request
                 connection.mockRespond(new http_1.Response(new http_1.ResponseOptions({ status: 200, body: serviceRequest })));
                 return;
@@ -72,10 +72,10 @@ function fakeBackendFactory(backend, options, realBackend) {
                 // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
                 if (connection.request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
                     // find user by id in users array
-                    var urlParts = connection.request.url.split('/');
-                    var id_2 = parseInt(urlParts[urlParts.length - 1]);
-                    var matchedUsers = users.filter(function (user) { return user.id === id_2; });
-                    var user = matchedUsers.length ? matchedUsers[0] : null;
+                    let urlParts = connection.request.url.split('/');
+                    let id = parseInt(urlParts[urlParts.length - 1]);
+                    let matchedUsers = users.filter(user => { return user.id === id; });
+                    let user = matchedUsers.length ? matchedUsers[0] : null;
                     // respond 200 OK with user
                     connection.mockRespond(new http_1.Response(new http_1.ResponseOptions({ status: 200, body: user })));
                 }
@@ -88,7 +88,7 @@ function fakeBackendFactory(backend, options, realBackend) {
             // create service request
             if (connection.request.url.endsWith('/api/serviceRequests') && connection.request.method === http_1.RequestMethod.Post) {
                 // get new serviceRequest object from post body
-                var newServiceRequest = JSON.parse(connection.request.getBody());
+                let newServiceRequest = JSON.parse(connection.request.getBody());
                 // save new service request
                 newServiceRequest.id = serviceRequests.length + 1;
                 serviceRequests.push(newServiceRequest);
@@ -100,15 +100,15 @@ function fakeBackendFactory(backend, options, realBackend) {
             // create user
             if (connection.request.url.endsWith('/api/users') && connection.request.method === http_1.RequestMethod.Post) {
                 // get new user object from post body
-                var newUser_1 = JSON.parse(connection.request.getBody());
+                let newUser = JSON.parse(connection.request.getBody());
                 // validation
-                var duplicateUser = users.filter(function (user) { return user.email === newUser_1.email; }).length;
+                let duplicateUser = users.filter(user => { return user.email === newUser.email; }).length;
                 if (duplicateUser) {
-                    return connection.mockError(new Error('email "' + newUser_1.email + '" is already taken'));
+                    return connection.mockError(new Error('email "' + newUser.email + '" is already taken'));
                 }
                 // save new user
-                newUser_1.id = users.length + 1;
-                users.push(newUser_1);
+                newUser.id = users.length + 1;
+                users.push(newUser);
                 localStorage.setItem('users', JSON.stringify(users));
                 // respond 200 OK
                 connection.mockRespond(new http_1.Response(new http_1.ResponseOptions({ status: 200 })));
@@ -117,10 +117,10 @@ function fakeBackendFactory(backend, options, realBackend) {
             // delete service request
             if (connection.request.url.match(/\/api\/serviceRequests\/\d+$/) && connection.request.method === http_1.RequestMethod.Delete) {
                 // find service request by id in service requests array
-                var urlParts = connection.request.url.split('/');
-                var id = parseInt(urlParts[urlParts.length - 1]);
-                for (var i = 0; i < serviceRequests.length; i++) {
-                    var serviceRequest = serviceRequests[i];
+                let urlParts = connection.request.url.split('/');
+                let id = parseInt(urlParts[urlParts.length - 1]);
+                for (let i = 0; i < serviceRequests.length; i++) {
+                    let serviceRequest = serviceRequests[i];
                     if (serviceRequest.id === id) {
                         // delete service request
                         serviceRequests.splice(i, 1);
@@ -137,10 +137,10 @@ function fakeBackendFactory(backend, options, realBackend) {
                 // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
                 if (connection.request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
                     // find user by id in users array
-                    var urlParts = connection.request.url.split('/');
-                    var id = parseInt(urlParts[urlParts.length - 1]);
-                    for (var i = 0; i < users.length; i++) {
-                        var user = users[i];
+                    let urlParts = connection.request.url.split('/');
+                    let id = parseInt(urlParts[urlParts.length - 1]);
+                    for (let i = 0; i < users.length; i++) {
+                        let user = users[i];
                         if (user.id === id) {
                             // delete user
                             users.splice(i, 1);
@@ -158,8 +158,8 @@ function fakeBackendFactory(backend, options, realBackend) {
                 return;
             }
             // pass through any requests not handled above
-            var realHttp = new http_1.Http(realBackend, options);
-            var requestOptions = new http_1.RequestOptions({
+            let realHttp = new http_1.Http(realBackend, options);
+            let requestOptions = new http_1.RequestOptions({
                 method: connection.request.method,
                 headers: connection.request.headers,
                 body: connection.request.getBody(),
@@ -168,9 +168,9 @@ function fakeBackendFactory(backend, options, realBackend) {
                 responseType: connection.request.responseType
             });
             realHttp.request(connection.request.url, requestOptions)
-                .subscribe(function (response) {
+                .subscribe((response) => {
                 connection.mockRespond(response);
-            }, function (error) {
+            }, (error) => {
                 connection.mockError(error);
             });
         }, 500);

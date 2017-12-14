@@ -1,10 +1,55 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var ServiceRequest = /** @class */ (function () {
-    function ServiceRequest() {
-        this.signedUp = false;
-    }
-    return ServiceRequest;
-}());
+const typeorm_1 = require("typeorm");
+let ServiceRequest = class ServiceRequest {
+};
+__decorate([
+    typeorm_1.PrimaryGeneratedColumn(),
+    __metadata("design:type", Number)
+], ServiceRequest.prototype, "id", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], ServiceRequest.prototype, "title", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", Date)
+], ServiceRequest.prototype, "startTime", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", Date)
+], ServiceRequest.prototype, "endTime", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", Date)
+], ServiceRequest.prototype, "dateOf", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], ServiceRequest.prototype, "location", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", Number)
+], ServiceRequest.prototype, "volunteersNeeded", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", Number)
+], ServiceRequest.prototype, "numVolunteers", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", Boolean)
+], ServiceRequest.prototype, "signedUp", void 0);
+ServiceRequest = __decorate([
+    typeorm_1.Entity()
+], ServiceRequest);
 exports.ServiceRequest = ServiceRequest;
 //# sourceMappingURL=serviceRequest.js.map
